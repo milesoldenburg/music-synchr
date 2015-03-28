@@ -1,0 +1,33 @@
+{
+    "name": "music-synchr",
+    "description": "Music synchronization term project for Spring 2015 CPS512.01",
+    "version": "0.1.0",
+    "private" : true,
+    "author": {
+        "name": "Miles Oldenburg",
+        "email": "miles.oldenburg@duke.edu",
+        "company" : "Duke University"
+    },
+    "contributors" : [
+        {
+            "name": "Bobo Bose-Kolanu",
+            "email": "the.bobo@duke.edu",
+            "company": "Duke University"
+        },
+        {
+            "name": "Jesse Hu",
+            "email": "jesse.hu@duke.edu",
+            "company": "Duke University"
+        }
+    ],
+    "main": "./lib/index.js",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:milesoldenburg/music-synchr.git"
+    },
+    "devDependencies": {
+        "express": "~4.12.3",
+        "glob": "~5.0.3",
+        "socket.io": "~1.3.5"
+    }
+}
