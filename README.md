@@ -8,9 +8,13 @@ Music synchronization term project for Spring 2015 CPS512.01
 2. [npm](https://www.npmjs.com/)
 
 ### Building
-Install proper dependencies
+Install proper dependencies (may need to run as admin)
 
     npm install
+    
+### Static Analysis
+
+	npm run lint
 
 ### Running
 
