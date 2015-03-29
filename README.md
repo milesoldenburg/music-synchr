@@ -11,10 +11,7 @@ Music synchronization term project for Spring 2015 CPS512.01
 Install proper dependencies (may need to run as admin)
 
     npm install
-    
-### Static Analysis
-
-	npm run lint
+    grunt
 
 ### Running
 

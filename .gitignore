@@ -2,3 +2,7 @@ node_modules
 *.iml
 .idea
 *.log
+bower_components
+public/css/**/
+public/js/lib
+public/fonts
