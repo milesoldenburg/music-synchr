@@ -12,6 +12,11 @@ Install proper dependencies (may need to run as admin)
 
     npm install
     grunt
+    
+### Development
+Run the watch task if you want to compile the CSS whenever a change to the LESS is made
+
+	grunt watch
 
 ### Running
 

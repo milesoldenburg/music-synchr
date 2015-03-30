@@ -30,17 +30,36 @@ module.exports = function(grunt) {
                 },
                 src: ['lib/**/*.js']
             }
+        },
+        less: {
+            main: {
+                options: {
+                    paths: ["./public/less"]
+                },
+                files: {
+                    "./public/css/styles.css": "./public/less/styles.less"
+                }
+            }
+        },
+        watch: {
+            less: {
+                files: './public/less/styles.less',
+                tasks: ['less']
+            }
         }
     });
 
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-bower-task');
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task.
     grunt.registerTask('default', [
         'bower',
-        'jshint'
+        'jshint',
+        'less'
     ]);
 
 };
