@@ -6,16 +6,18 @@
             <th>Artist</th>
             <th>Album</th>
             <th>Year</th>
+            <th>Link</th>
         </tr>
     </thead>
     <tbody>
         {{#tracks}}
             <tr>
-                <td><i class="fa fa-play-circle-o fa-2x"></i></td>
+                <td><i class="fa fa-play-circle-o fa-2x" data-track="{{path}}" data-address="{{address}}"></i></td>
                 <td>{{title}}</td>
                 <td>{{artist}}</td>
                 <td>{{album}}</td>
                 <td>{{year}}</td>
+                <td><a href="http://{{address}}:3000/stream/{{path}}">Link</a></td>
             </tr>
         {{/tracks}}
     </tbody>
