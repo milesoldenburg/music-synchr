@@ -3,6 +3,6 @@ node_modules
 .idea
 *.log
 bower_components
-public/css/**/
+public/css
 public/js/lib
 public/fonts
