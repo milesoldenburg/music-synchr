@@ -19,14 +19,18 @@ require.config({
     'urlArgs' : 'bust=' + (new Date()).getTime()
 });
 
-require(['socketio', 'mustache', 'bootstrap'], function(io, Mustache){
-    var socket = io.connect('http://localhost:3000');
+require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustache, Player){
+    var port = 3000;
 
-    socket.on('tracklist', function(data){
-        $(document).ready(function(){
+    $(document).ready(function(){
+        // Connect to node
+        var socket = io.connect('http://localhost:' + port);
+        socket.on('tracklist', function(data){
             require(['text!html/tracks.html'], function(TracksTemplate){
                 $('.page-container').html(Mustache.render(TracksTemplate, data));
             });
         });
+
+        Player.listen();
     });
 });

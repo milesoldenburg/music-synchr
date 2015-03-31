@@ -18,13 +18,18 @@
         </div>
     </nav>
     <div class="container-fluid page-container"></div>
+    <div class="audio-player-container">
+        <audio id="audio-player">
+            <source src="" type="audio/mpeg">
+        </audio>
+    </div>
     <nav class="navbar navbar-default navbar-fixed-bottom player-controls">
         <div class="container-fluid">
             <div class="btn-group-wrapper">
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-default"><i class="fa fa-step-backward fa-lg"></i></button>
-                    <button type="button" class="btn btn-default"><i class="fa fa-play fa-lg"></i></button>
-                    <button type="button" class="btn btn-default"><i class="fa fa-step-forward fa-lg"></i></button>
+                    <button type="button" class="btn btn-default backward-control"><i class="fa fa-step-backward fa-lg"></i></button>
+                    <button type="button" class="btn btn-default play-control"><i class="fa fa-play fa-lg"></i></button>
+                    <button type="button" class="btn btn-default forward-control"><i class="fa fa-step-forward fa-lg"></i></button>
                 </div>
             </div>
         </div>
