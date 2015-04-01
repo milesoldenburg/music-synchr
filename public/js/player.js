@@ -1,6 +1,7 @@
 define(['jquery'], function($){
 
-    var port = 3000;
+    var socket = null;
+    var port = null;
     var isPlaying = false;
     var player = $('#audio-player').get(0);
 
@@ -8,22 +9,34 @@ define(['jquery'], function($){
      * Pauses the audio
      */
     var pause = function(){
+        // Pause player
         player.pause();
         isPlaying = false;
+
+        // Set styles
         $('.player-controls button.play-control i').removeClass('fa-pause').addClass('fa-play');
+
+        // Emit event
+        emitControl('pause');
     };
 
     /**
      * Resumes the audio
      */
     var play = function(){
+        // Play player
         player.play();
         isPlaying = true;
+
+        // Set styles
         $('.player-controls button.play-control i').removeClass('fa-play').addClass('fa-pause');
     };
 
     /**
      * Loads a new track into the player
+     *
+     * @param address   The address of the machine the track resides on
+     * @param track     The selected track
      */
     var load = function(address, track){
         var path = 'http://' + address + ':' + port + '/stream/' + track;
@@ -42,6 +55,15 @@ define(['jquery'], function($){
     };
 
     /**
+     * Emits a control event back to the node
+     *
+     * @param control
+     */
+    var emitControl = function(control){
+        socket.emit('control', control);
+    };
+
+    /**
      * Set all event listeners
      */
     var delegateEvents = function(){
@@ -53,6 +75,9 @@ define(['jquery'], function($){
                     pause();
                 } else { // Play if currently paused
                     play();
+
+                    // Emit event
+                    emitControl('play');
                 }
             } else { // Pushed play on a new track
                 setDefaultRowStyles();
@@ -67,6 +92,9 @@ define(['jquery'], function($){
                 // Load new track and play
                 load(address, track);
                 play();
+
+                // Emit event
+                emitControl('play');
             }
         });
 
@@ -109,6 +137,9 @@ define(['jquery'], function($){
                 // Load new track and play
                 load(address, track);
                 play();
+
+                // Emit event
+                emitControl('forward');
             }
         });
 
@@ -117,6 +148,9 @@ define(['jquery'], function($){
             if ($('table.tracklist tr.now-playing').size() > 0) { // Only backward track if one has been selected already
                 if (isPlaying && player.currentTime > 3) { // If already playing then restart the track if we are after 3 seconds of start
                     player.currentTime = 0;
+
+                    // Emit event
+                    emitControl('restart');
                 } else { // Otherwise play previous track
                     // Get previous track row
                     var previousRow = $('table.tracklist tr.now-playing').prev();
@@ -132,13 +166,29 @@ define(['jquery'], function($){
                     // Load new track and play
                     load(address, track);
                     play();
+
+                    // Emit event
+                    emitControl('backward');
                 }
             }
         });
     };
 
+    /**
+     * Initialzes the player controls
+     *
+     * @param _socket   The socket.io web socket to communicate with the node
+     * @param _port     The port the node is listening on
+     */
+    var init = function(_socket, _port){
+        socket = _socket;
+        port = _port;
+
+        delegateEvents();
+    };
+
     return {
-        'delegateEvents' : delegateEvents
+        'init' : init
     };
 
 });
