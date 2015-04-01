@@ -31,6 +31,6 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
             });
         });
 
-        Player.listen();
+        Player.delegateEvents();
     });
 });

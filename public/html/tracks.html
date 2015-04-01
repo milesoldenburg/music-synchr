@@ -10,8 +10,8 @@
     </thead>
     <tbody>
         {{#tracks}}
-            <tr>
-                <td><i class="fa fa-play-circle-o fa-2x" data-track="{{path}}" data-address="{{address}}"></i></td>
+            <tr data-track="{{path}}" data-address="{{address}}">
+                <td><i class="fa fa-play-circle-o fa-2x"></i></td>
                 <td>{{title}}</td>
                 <td>{{artist}}</td>
                 <td>{{album}}</td>
