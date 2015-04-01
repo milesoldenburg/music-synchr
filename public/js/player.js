@@ -17,7 +17,9 @@ define(['jquery'], function($){
         $('.player-controls button.play-control i').removeClass('fa-pause').addClass('fa-play');
 
         // Emit event
-        emitControl('pause');
+        emitControl({
+            'type' : 'pause'
+        });
     };
 
     /**
@@ -77,7 +79,9 @@ define(['jquery'], function($){
                     play();
 
                     // Emit event
-                    emitControl('play');
+                    emitControl({
+                        'type' : 'play'
+                    });
                 }
             } else { // Pushed play on a new track
                 setDefaultRowStyles();
@@ -94,7 +98,11 @@ define(['jquery'], function($){
                 play();
 
                 // Emit event
-                emitControl('play');
+                emitControl({
+                    'type' : 'new',
+                    'address' : address,
+                    'track' : track
+                });
             }
         });
 
@@ -104,6 +112,11 @@ define(['jquery'], function($){
                 pause();
             } else if ($('table.tracklist tr.now-playing').size() > 0) { // If there is a track paused
                 play();
+
+                // Emit event
+                emitControl({
+                    'type' : 'play'
+                });
             } else { // No track is paused but the play button has been clicked so play the first track in the list
                 // Get track data
                 var firstRow = $('table.tracklist tr:eq(1)');
@@ -116,7 +129,11 @@ define(['jquery'], function($){
 
                 // Load new track and play
                 load(address, track);
-                play();
+                emitControl({
+                    'type' : 'new',
+                    'address' : address,
+                    'track' : track
+                });
             }
         });
 
@@ -139,7 +156,11 @@ define(['jquery'], function($){
                 play();
 
                 // Emit event
-                emitControl('forward');
+                emitControl({
+                    'type' : 'forward',
+                    'address' : address,
+                    'track' : track
+                });
             }
         });
 
@@ -150,7 +171,9 @@ define(['jquery'], function($){
                     player.currentTime = 0;
 
                     // Emit event
-                    emitControl('restart');
+                    emitControl({
+                        'type' : 'restart'
+                    });
                 } else { // Otherwise play previous track
                     // Get previous track row
                     var previousRow = $('table.tracklist tr.now-playing').prev();
@@ -168,7 +191,11 @@ define(['jquery'], function($){
                     play();
 
                     // Emit event
-                    emitControl('backward');
+                    emitControl({
+                        'type' : 'backward',
+                        'address' : address,
+                        'track' : track
+                    });
                 }
             }
         });
