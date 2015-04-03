@@ -24,7 +24,9 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
 
     $(document).ready(function(){
         // Connect to node
-        var socket = io.connect('http://localhost:' + port);
+        var URI = document.location.href;
+        var socket = io.connect(URI);
+        //var socket = io.connect('http://localhost:' + port);
 
         // When tracklist is received from node
         socket.on('tracklist', function(data){
