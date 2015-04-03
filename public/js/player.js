@@ -15,11 +15,6 @@ define(['jquery'], function($){
 
         // Set styles
         $('.player-controls button.play-control i').removeClass('fa-pause').addClass('fa-play');
-
-        // Emit event
-        emitControl({
-            'type' : 'pause'
-        });
     };
 
     /**
@@ -75,6 +70,11 @@ define(['jquery'], function($){
             if ($(event.currentTarget).parents('tr').hasClass('now-playing')) { // Pushed play/pause on running track
                 if (isPlaying) { // Pause if currently playing
                     pause();
+
+                    // Emit event
+                    emitControl({
+                        'type' : 'pause'
+                    });
                 } else { // Play if currently paused
                     play();
 
@@ -110,6 +110,11 @@ define(['jquery'], function($){
         $(document).on('click', '.player-controls button.play-control', function(){
             if (isPlaying) {
                 pause();
+
+                // Emit event
+                emitControl({
+                    'type' : 'pause'
+                });
             } else if ($('table.tracklist tr.now-playing').size() > 0) { // If there is a track paused
                 play();
 
@@ -129,6 +134,9 @@ define(['jquery'], function($){
 
                 // Load new track and play
                 load(address, track);
+                play();
+
+                // Emit event
                 emitControl({
                     'type' : 'new',
                     'address' : address,
@@ -202,6 +210,40 @@ define(['jquery'], function($){
     };
 
     /**
+     * Receives a control message from the server and controls the player
+     *
+     * @param control   The control message sent from the server
+     */
+    var receiveExternalControl = function(control){
+        switch (control.type) {
+            case 'play':
+                play();
+                break;
+            case 'pause':
+                pause();
+                break;
+            case 'forward':
+            case 'backward':
+            case 'new':
+                // Load new track and play
+                load(control.address, control.track);
+                play();
+
+                // Update styles
+                setDefaultRowStyles();
+
+                // Update icon to show that this track is currently playing
+                $('table.tracklist tr[data-track="' + control.track + '"]').addClass('info now-playing').find('i').removeClass('fa-play-circle-o').addClass('fa-play-circle');
+
+                break;
+            case 'restart':
+                player.currentTime = 0;
+                play();
+                break;
+        }
+    };
+
+    /**
      * Initialzes the player controls
      *
      * @param _socket   The socket.io web socket to communicate with the node
@@ -215,7 +257,8 @@ define(['jquery'], function($){
     };
 
     return {
-        'init' : init
+        'init' : init,
+        'receiveExternalControl' : receiveExternalControl
     };
 
 });
