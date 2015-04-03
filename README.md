@@ -7,6 +7,9 @@ Music synchronization term project for Spring 2015 CPS512.01
 1. [node.js](https://nodejs.org/)
 2. [npm](https://www.npmjs.com/)
 
+### Preparation
+Put some test .mp3 files into ~/Music/music-synchr. The file scan is recursive so organization does not matter.
+
 ### Building
 Install proper dependencies (may need to run as admin)
 
