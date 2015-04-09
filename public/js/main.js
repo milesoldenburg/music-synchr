@@ -20,13 +20,13 @@ require.config({
 });
 
 require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustache, Player){
-    var port = 3000;
-
     $(document).ready(function(){
+        // Get uri and port
+        var uri = document.location.href;
+        var port = uri.split('/')[2].split(':')[1];
+
         // Connect to node
-        var URI = document.location.href;
-        var socket = io.connect(URI);
-        //var socket = io.connect('http://localhost:' + port);
+        var socket = io.connect(uri);
 
         // When tracklist is received from node
         socket.on('tracklist', function(data){
