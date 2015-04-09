@@ -36,6 +36,13 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
             });
         });
 
+        // When tracklist updates are received from node
+        socket.on('tracklist-add', function(data){
+            require(['text!html/tracks-add.html'], function(TracksAddTemplate){
+                $('table.tracklist tbody').append(Mustache.render(TracksAddTemplate, data));
+            });
+        });
+
         Player.init(socket, port);
 
         // When player control is received from node
