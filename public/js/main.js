@@ -20,19 +20,26 @@ require.config({
 });
 
 require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustache, Player){
-    var port = 3000;
-
     $(document).ready(function(){
+        // Get uri and port
+        var uri = document.location.href;
+        var port = uri.split('/')[2].split(':')[1];
+
         // Connect to node
-        var URI = document.location.href;
-        var socket = io.connect(URI);
-        //var socket = io.connect('http://localhost:' + port);
+        var socket = io.connect(uri);
 
         // When tracklist is received from node
         socket.on('tracklist', function(data){
             // Render into page
             require(['text!html/tracks.html'], function(TracksTemplate){
                 $('.page-container').html(Mustache.render(TracksTemplate, data));
+            });
+        });
+
+        // When tracklist updates are received from node
+        socket.on('tracklist-add', function(data){
+            require(['text!html/tracks-add.html'], function(TracksAddTemplate){
+                $('table.tracklist tbody').append(Mustache.render(TracksAddTemplate, data));
             });
         });
 
