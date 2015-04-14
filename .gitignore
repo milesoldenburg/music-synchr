@@ -6,3 +6,4 @@ bower_components
 public/css
 public/js/lib
 public/fonts
+*.DS_Store
