@@ -19,7 +19,7 @@ require.config({
     'urlArgs' : 'bust=' + (new Date()).getTime()
 });
 
-require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustache, Player){
+require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js'], function(io, Mustache, Player){
     $(document).ready(function(){
         // Get uri and port
         var uri = document.location.href;
@@ -41,6 +41,18 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
             require(['text!html/tracks-add.html'], function(TracksAddTemplate){
                 $('table.tracklist tbody').append(Mustache.render(TracksAddTemplate, data));
             });
+        });
+
+        // When tracklist-remove notice is received from node
+        socket.on('tracklist-remove', function(data){
+            //remove the tracks
+        });
+
+        // When stale-tracks notice is received from node
+        socket.on('stale-tracks', function(){
+            //provide a list of your tracks so server can remove them
+            scanner.scan(function(){});
+            socket.emit('stale-tracklist', { 'stale-tracks' : scanner.getTracks() });
         });
 
         Player.init(socket, port);
