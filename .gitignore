@@ -6,3 +6,6 @@ bower_components
 public/css
 public/js/lib
 public/fonts
+report.aux
+report.toc
+report.synctex.gz
