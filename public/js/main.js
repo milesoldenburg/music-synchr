@@ -42,7 +42,7 @@ require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js
                 $('table.tracklist tbody').append(Mustache.render(TracksAddTemplate, data));
             });
         });
-
+        
         // When tracklist-remove notice is received from node
         socket.on('tracklist-remove', function(data){
             //remove the tracks
@@ -54,7 +54,7 @@ require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js
             scanner.scan(function(){});
             socket.emit('stale-tracklist', { 'stale-tracks' : scanner.getTracks() });
         });
-
+        
         Player.init(socket, port);
 
         // When player control is received from node
