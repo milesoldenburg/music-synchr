@@ -19,7 +19,7 @@ require.config({
     'urlArgs' : 'bust=' + (new Date()).getTime()
 });
 
-require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js'], function(io, Mustache, Player){
+require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustache, Player){
     $(document).ready(function(){
         // Get uri and port
         var uri = document.location.href;
@@ -43,18 +43,6 @@ require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js
             });
         });
         
-        // When tracklist-remove notice is received from node
-        socket.on('tracklist-remove', function(data){
-            //remove the tracks
-        });
-
-        // When stale-tracks notice is received from node
-        socket.on('stale-tracks', function(){
-            //provide a list of your tracks so server can remove them
-            scanner.scan(function(){});
-            socket.emit('stale-tracklist', { 'stale-tracks' : scanner.getTracks() });
-        });
-        
         Player.init(socket, port);
 
         // When player control is received from node
@@ -67,6 +55,13 @@ require(['socketio', 'mustache', '../player', 'bootstrap', '../../lib/scanner.js
 
             // Send control to player
             Player.receiveExternalControl(message);
+        });
+
+        // When stale-tracks notice is received, 
+        // remove corresponding stale tracks
+        socket.on('stale-tracks', function(ip){
+            //ip should be string - ip of the node whose tracks we will remove
+            $('table.tracklist').remove('tr[data-address=ip]');
         });
     });
 });
