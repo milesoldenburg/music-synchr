@@ -72,9 +72,10 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
                 //ip.indexOf("::ffff:", 0), ip.lastIndexOf("::ffff:", 0)
                 //ip = ip.replace('::ffff:', '');
                 ip = ip.slice(7);
-                alert('new ip without ipv6 prefix is: ' + ip);
+                console.log('new ip without ipv6 prefix is: ' + ip);
             }
             $('table.tracklist').remove('tr[data-address=ip]');
+            alert('tracks with ip ' + ip + ' should be removed now');
         });
     });
 });
