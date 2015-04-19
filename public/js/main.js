@@ -59,8 +59,21 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
 
         // When stale-tracks notice is received, 
         // remove corresponding stale tracks
-        socket.on('stale-tracks', function(ip){
+        socket.on('stale-tracks', function(data){
+            console.log('received a stale-tracks notice');
+            var ip = data.ip; 
             //ip should be string - ip of the node whose tracks we will remove
+            if ( ip === "::1"){
+                ip = "127.0.0.1";
+                console.log("i got a localhost ip: ", ip);
+            }
+            else {
+                // strip the ipv6 pre-pending of ::ffff:
+                //ip.indexOf("::ffff:", 0), ip.lastIndexOf("::ffff:", 0)
+                //ip = ip.replace('::ffff:', '');
+                ip = ip.slice(7);
+                alert('new ip without ipv6 prefix is: ' + ip);
+            }
             $('table.tracklist').remove('tr[data-address=ip]');
         });
     });
