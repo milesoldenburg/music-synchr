@@ -42,7 +42,7 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
                 $('table.tracklist tbody').append(Mustache.render(TracksAddTemplate, data));
             });
         });
-
+        
         Player.init(socket, port);
 
         // When player control is received from node
@@ -55,6 +55,29 @@ require(['socketio', 'mustache', '../player', 'bootstrap'], function(io, Mustach
 
             // Send control to player
             Player.receiveExternalControl(message);
+        });
+
+        // When stale-tracks notice is received, 
+        // remove corresponding stale tracks
+        socket.on('stale-tracks', function(data){
+            var ip = data.ip;
+
+            console.log('received a stale-tracks notice for', ip, 'removing tracks');
+
+            //ip should be string - ip of the node whose tracks we will remove
+            //if ( ip === "::1"){
+            //    ip = "127.0.0.1";
+            //    console.log("i got a localhost ip: ", ip);
+            //}
+            //else {
+            //    // strip the ipv6 pre-pending of ::ffff:
+            //    //ip.indexOf("::ffff:", 0), ip.lastIndexOf("::ffff:", 0)
+            //    //ip = ip.replace('::ffff:', '');
+            //    ip = ip.slice(7);
+            //    console.log('new ip without ipv6 prefix is: ' + ip);
+            //}
+
+            $('table.tracklist tr[data-address="' + ip + '"]').remove();
         });
     });
 });
