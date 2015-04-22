@@ -1,7 +1,7 @@
 \documentclass[12pt]{article}
 
 \title{CPS 512.01 Spring 2015 Final Project \\ Synchr}
-\author{Miles Oldenburg, Bobo Bose-Kolanu \\ Duke University}
+\author{Bobo Bose-Kolanu, Miles Oldenburg \\ Duke University}
 
 \begin{document}
 
@@ -31,14 +31,21 @@ Before we begin the technical report on our project we pause to list the individ
 \item Removed hardcoded server connection and added dynamic server connection (scrapes IP and port from browser upon user input)
 \item Added stale track removal feature. Captures disconnecting node IP on disconnect event and signals surviving nodes to remove tracks previously served by the disconnected node
 \item Produced initial PowerPoint and outline for class presentation and presented in class
-\item Wrote Introduction and Motivation and Server sections of final report. Contributed extensively to Current Limitations as well.
+\item Wrote Introduction and Motivation section and first draft of Server section as well as two sub-sections of Current Limitations.
+\item Proofing and copy-editing of final report
+\end{itemize}
+
+\textbf{Jesse Hu}
+\begin{itemize}
+\item Prepared slides on network time synchronization for class presentation
 \end{itemize}
 
 \textbf{Miles Oldenburg}
 \begin{itemize}
-\item Project set up including structure, dependencies, documentation, and installation scripts
+\item Project setup including structure, dependencies, documentation, and installation scripts
 \item Implemented both the client and server nodes including the interface, distributed control, track scanning, track streaming, and node communication
-\item Final report including the setup and server, client, limitations, and future work sections
+\item Proofing, code examples, and topology slide for class presentation
+\item Final report including the setup and Server, Client, Current Limitations, and Future Work sections
 \end{itemize}
 
 \section{Server Nodes}
@@ -61,7 +68,7 @@ Since only server nodes share tracklists, removal of stale tracks occurs when on
 \textbf{Streaming}\\
 Server nodes enable on-demand streaming of music tracks. Client interfaces request music and the server node streams the file from disk over HTTP.\\
 
-\textbf{Player Controls}
+\textbf{Player Controls}\\
 Server nodes handle the distribution of control commands through broadcast. Control commands like play, pause, and skip are received and then broadcast through the network reaching all other connected clients.
 
 \subsection{Technology}
@@ -98,14 +105,14 @@ We use the socket.io library to handle the disconnect event and scrape the clien
 
 Based on a Linux networking discussion thread \footnote{https://groups.google.com/forum/\#!topic/comp.os.linux.networking/9uVVSOgScqw} , it looks like this prefix is a way for a socket to be of form IPv6 but to allow IPv4 packets to be transmitted across it. In other words, this prefix provides a way of mapping IPv4's into the IPv6 address space.
 
-As a result, we currently detect presence of the ∷ffff: prefix and remove it if present, passing the result to a mechanism that deletes <tr> entries with corresponding CSS id's (since tracks are tagged in the tracklist with the IP of the client that provides them).
+As a result, we currently detect presence of the ::ffff: and remove it if present, passing the result to a mechanism that deletes {\tt <tr>} entries with corresponding CSS id's (since tracks are tagged in the tracklist with the IP of the client that provides them).
 
 However, some operating systems may disallow passing IPv4 traffic over IPv6 sockets, in which case, since our application appears to be using an IPv6 socket, we will get a real IPv6 address for clients with these operating systems. Current application logic for the disconnect event handler does not discriminate between this situation and the pre-pended IPv4 above. One possible solution is to detect a true IPv6 address and simply pass it through without modification. To ensure inter-operability with our CSS id's we would have to require them to support IPv6 scraping for tagging as well, so this patch would require further testing and evaluation of the socket.io and ip libraries.
 
 \subsection{NAT Masking and Localhost Collisions}
 We face an additional limitation from the underlying networking libraries related to IP addressing: NAT masking and localhost collisions. If a user runs the server on their laptop and also connects as a client to the server (e.g. via localhost:3000 in the browser), then disconnect events do not capture the correct IP.
 
-Currently the underlying network libraries provide ∷1 (IPv6 for 127.0.0.1) when the localhost client disconnects. However, our scraping script, which is responsible for tagging the uploaded tracklist entries with the IP address of the client that provides them, uses the external-facing IP address. Consider the following scenario: a user runs two server nodes on their laptop, and joins them. A friend on an external machine connects as a client. If one of the server nodes exits the tracks from both server nodes will be delisted. A user might reasonably run two servers from one machine if they were attempting some separation of concerns due to content restrictions (e.g. licensing). A solution might involve tagging tracks with <IP:port> pairs instead of just IP.
+Currently the underlying network libraries provide ::1 (IPv6 for 127.0.0.1) when the localhost client disconnects. However, our scraping script, which is responsible for tagging the uploaded tracklist entries with the IP address of the client that provides them, uses the external-facing IP address. Consider the following scenario: a user runs two server nodes on their laptop, and joins them. A friend on an external machine connects as a client. If one of the server nodes exits the tracks from both server nodes will be delisted. A user might reasonably run two servers from one machine if they were attempting some separation of concerns due to content restrictions (e.g. licensing). A solution might involve tagging tracks with {\textless}IP:port{\textgreater} pairs instead of just IP.
 
 Additionally, our current networking logic does not handle NAT collisions. While extremely rare, it is possible for clients on an internal network to share an IP address with a client from an external network. In such a case when one of the clients disconnects both clients' tracks will be removed from remaining clients' tracklists. This problem could be addressed by tagging the tracks with IP + client ID (a hash value) instead of just IP alone.
 
@@ -115,7 +122,7 @@ Additionally, our current networking logic does not handle NAT collisions. While
 In the current version of the software, any client connected to the network will receive control messages. This feature may not be always desirable so the ability to opt out of sending and receiving control messages could be added to the client interface.
 
 \subsection{Pre-Fetch}
-In a normal listening session we can expect the next song in the library to play after the current song has finished. In the current version, the upcoming song would only be streamed after the current song has finished. One optimization would be to look ahead in the potential play queue and fetch a number of songs into browser memory so when the current song finishes playing the next song can be played immediately.
+In a normal listening session we can expect the next song in the library to play immediately after the current song has finished. In the current version, the upcoming song would only be streamed after the current song has finished. One optimization would be to look ahead in the potential play queue and fetch a number of songs into browser memory so when the current song finishes playing the next song can be played immediately.
 
 \subsection{Contributing}
 \begin{center}
