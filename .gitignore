@@ -3,9 +3,9 @@ node_modules
 .idea
 *.log
 bower_components
-public/css
-public/js/lib
-public/fonts
+static/css
+static/js/lib
+static/fonts
 report.aux
 report.toc
 report.synctex.gz
