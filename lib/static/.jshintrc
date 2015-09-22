@@ -11,10 +11,5 @@
   "boss": true,
   "eqnull": true,
   "browser": true,
-  "devel": true,
-  "globals": {
-      "define": false,
-      "require": false,
-      "$": false
-  }
+  "devel": true
 }

@@ -1,5 +1,4 @@
 {
-  "browser": true,
   "curly": true,
   "eqeqeq": true,
   "immed": true,
@@ -11,11 +10,5 @@
   "unused": true,
   "boss": true,
   "eqnull": true,
-  "node": true,
-  "globals": {
-    "App": true,
-    "Backbone": true,
-    "$": true,
-    "_": true
-  }
+  "node": true
 }
