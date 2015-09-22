@@ -7,7 +7,7 @@
     "name": "Miles Oldenburg",
     "email": "milesoldenburg@gmail.com"
   },
-  "main": "./lib/index.js",
+  "main": "./lib/main.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:milesoldenburg/music-synchr.git"

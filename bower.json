@@ -1,31 +1,13 @@
 {
-    "name": "music-synchr-components",
-    "private": true,
-    "version": "0.1.0",
-    "description": "Front-end components for music-synchr",
-    "dependencies": {
-        "bootstrap": "~3.3.4",
-        "jquery": "~2.1.3",
-        "mustache": "~2.0.0",
-        "text": "~2.0.14"
-    },
-    "exportsOverride": {
-        "bootstrap": {
-            "css": "dist/css/bootstrap.min.css",
-            "fonts": "dist/fonts/*",
-            "js/lib": "dist/js/bootstrap.min.js"
-        },
-        "jquery": {
-            "js/lib": "dist/jquery.min.js"
-        },
-        "mustache": {
-            "js/lib": "mustache.min.js"
-        },
-        "requirejs": {
-            "js/lib": "require.js"
-        },
-        "text": {
-            "js/lib": "text.js"
-        }
-    }
+  "name": "music-synchr-components",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Front-end components for music-synchr",
+  "dependencies": {
+    "bootstrap": "~3.3.4",
+    "fontawesome": "~4.4.0",
+    "jquery": "~2.1.3",
+    "mustache": "~2.0.0",
+    "text": "~2.0.14"
+  }
 }
