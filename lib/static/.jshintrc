@@ -11,5 +11,8 @@
   "boss": true,
   "eqnull": true,
   "browser": true,
-  "devel": true
+  "node": true,
+  "globals": {
+    "$": false
+  }
 }

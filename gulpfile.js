@@ -7,8 +7,8 @@ var jscs = require('gulp-jscs');
 var jshint = require('gulp-jshint');
 var less = require('gulp-less');
 var LessPluginAutoPrefix = require('less-plugin-autoprefix');
+var LessPluginCleanCSS = require('less-plugin-clean-css');
 var packager = require('electron-packager');
-var path = require('path');
 var Q = require('q');
 
 /**
@@ -26,7 +26,8 @@ gulp.task('lint:config', function(){
  */
 gulp.task('lint:lib', function(){
     return gulp.src([
-            './lib/**/*.js'
+            './lib/**/*.js',
+            '!./lib/static/bower_components/**/*.js'
         ])
         .pipe(jshint())
         .pipe(jshint.reporter('default'))
@@ -74,18 +75,22 @@ gulp.task('less', function(){
         browsers : ['last 1 Chrome version']
     });
 
-    return gulp.src(path.join(__dirname, 'lib/static/css/styles.less'))
+    var cleancss = new LessPluginCleanCSS({
+        advanced : true
+    });
+
+    return gulp.src('./lib/static/css/styles.less')
         .pipe(less({
-            plugins : [autoprefix]
+            plugins : [autoprefix, cleancss]
         }))
-        .pipe(gulp.dest(path.join(__dirname, 'lib/static/css')));
+        .pipe(gulp.dest('./lib/static/css'));
 });
 
 /**
  * Watches for changes in LESS and then triggers the less task
  */
 gulp.task('watch', function(){
-    gulp.watch(path.join(__dirname, 'lib/static/css/styles.less'), ['less']);
+    gulp.watch('./lib/static/css/styles.less', ['less']);
 });
 
 gulp.task('clean', function(){
