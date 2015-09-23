@@ -9,14 +9,14 @@
         </tr>
     </thead>
     <tbody>
-        {{#tracks}}
+        <% _.each(tracklist, function(element){ %>
             <tr data-track="{{path}}" data-address="{{address}}">
                 <td><i class="fa fa-play-circle-o fa-2x"></i></td>
-                <td>{{title}}</td>
-                <td>{{artist}}</td>
-                <td>{{album}}</td>
-                <td>{{year}}</td>
+                <td><%= element.title %></td>
+                <td><%= element.artist %></td>
+                <td><%= element.album %></td>
+                <td><%= element.year %></td>
             </tr>
-        {{/tracks}}
+        <% }); %>
     </tbody>
 </table>
