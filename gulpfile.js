@@ -113,7 +113,7 @@ gulp.task('bundle', ['clean', 'lint'], function(){
         arch : 'x64',
         version : '0.33.0',
         out : './dist',
-        icon : './lib/resources/osx/DartMatrix.icns',
+        icon : './lib/resources/osx/MusicSynchr.icns',
         prune : true,
         ignore : 'node_modules'
     }, function(err){
@@ -132,11 +132,11 @@ gulp.task('dmg', ['bundle'], function(){
 
     var dmgr = appdmg({
         source : 'lib/resources/osx/appdmg.json',
-        target : 'dist/DartMatrix.dmg'
+        target : 'dist/MusicSynchr.dmg'
     });
 
     dmgr.on('finish', function(){
-        console.log('DartMatrix.dmg finished');
+        console.log('MusicSynchr.dmg finished');
         deferred.resolve();
     });
 
