@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         <% _.each(tracklist, function(element){ %>
-            <tr data-track="{{path}}" data-address="{{address}}">
+            <tr data-track="<%= element.path %>" data-address="<%= element.address %>" data-port="<%= element.port %>">
                 <td><i class="fa fa-play-circle-o fa-2x"></i></td>
                 <td><%= element.title %></td>
                 <td><%= element.artist %></td>

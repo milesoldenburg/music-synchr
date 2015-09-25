@@ -27,6 +27,8 @@ gulp.task('lint:config', function(){
 gulp.task('lint:lib', function(){
     return gulp.src([
             './lib/**/*.js',
+            '!./lib/index.js',
+            '!./lib/static/js/main.js',
             '!./lib/static/bower_components/**/*.js'
         ])
         .pipe(jshint())
@@ -51,7 +53,10 @@ gulp.task('jscs:config', function(){
  */
 gulp.task('jscs:lib', function(){
     return gulp.src([
-            './lib/**/*.js'
+            './lib/**/*.js',
+            '!./lib/index.js',
+            '!./lib/static/js/main.js',
+            '!./lib/static/bower_components/**/*.js'
         ])
         .pipe(jscs({
             configPath : '.jscsrc',
